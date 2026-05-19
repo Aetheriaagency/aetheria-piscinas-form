@@ -197,20 +197,121 @@ $saveBtn.addEventListener("click", () => {
 });
 
 // ─────────────────────────────────────────────
-// 7. SUBMIT — confirm before sending
+// 7. EXPORT TO JSON (backup if submission service is down)
 // ─────────────────────────────────────────────
-$form.addEventListener("submit", (e) => {
+function buildResponsesObject() {
+  const responses = {
+    metadata: {
+      exportedAt: new Date().toISOString(),
+      source: "Aetheria · Cuestionario Piscinas HBO",
+      version: "1.0",
+    },
+    pools: {},
+  };
+  POOLS.forEach((pool) => {
+    responses.pools[pool.id] = { name: pool.label };
+    const section = document.querySelector(`.pool-section[data-pool="${pool.id}"]`);
+    if (!section) return;
+    section.querySelectorAll("input, textarea, select").forEach((el) => {
+      if (el.type === "file" || el.type === "hidden") return;
+      const fieldName = el.name.replace(new RegExp(`^${pool.id}__`), "");
+      if (el.type === "radio") {
+        if (el.checked) responses.pools[pool.id][fieldName] = el.value;
+      } else if (el.type === "checkbox") {
+        responses.pools[pool.id][fieldName] = el.checked;
+      } else if (el.value && el.value.trim() !== "") {
+        responses.pools[pool.id][fieldName] = el.value;
+      }
+    });
+    // Collect uploaded file names (we can't include the actual files in JSON)
+    const fileInput = section.querySelector('input[type="file"]');
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      responses.pools[pool.id].photos_uploaded = Array.from(fileInput.files).map(
+        (f) => ({ name: f.name, size: f.size, type: f.type })
+      );
+    }
+  });
+  return responses;
+}
+
+function downloadAsJSON() {
+  const data = buildResponsesObject();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  a.href = url;
+  a.download = `cuestionario-piscinas-aetheria-${timestamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showAutosaveStatus("✓ Backup descargado — mándanos el archivo");
+}
+
+document.getElementById("downloadJson").addEventListener("click", downloadAsJSON);
+
+// ─────────────────────────────────────────────
+// 8. SUBMIT — with FormSubmit health check + auto fallback
+// ─────────────────────────────────────────────
+const $submitBtn = document.getElementById("submitBtn");
+const $errorBanner = document.getElementById("errorBanner");
+
+async function checkFormSubmitHealth() {
+  // FormSubmit doesn't expose a clean health endpoint; we try a HEAD on their CDN
+  // with a short timeout. A 522/5xx or timeout = down.
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const res = await fetch("https://formsubmit.co/", {
+      method: "HEAD",
+      mode: "no-cors",
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    clearTimeout(timeoutId);
+    // no-cors gives opaque response — we just check that it didn't throw
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+$form.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const confirmed = confirm(
     "¿Enviar el cuestionario ahora?\n\n" +
     "Las respuestas se enviarán a info@aetheriaagency.es.\n" +
     "Podrás seguir editando aquí en este navegador si lo necesitas."
   );
-  if (!confirmed) {
-    e.preventDefault();
-    return;
-  }
+  if (!confirmed) return;
+
   // Final save before submitting
   saveFormState();
+
+  // UX: disable button + show loading state
+  $submitBtn.disabled = true;
+  const originalText = $submitBtn.innerHTML;
+  $submitBtn.innerHTML = "⏳ Comprobando servicio...";
+  $errorBanner.hidden = true;
+
+  // Check FormSubmit health first
+  const isHealthy = await checkFormSubmitHealth();
+
+  if (!isHealthy) {
+    // Service is down — show error banner + auto-download JSON
+    $errorBanner.hidden = false;
+    $errorBanner.scrollIntoView({ behavior: "smooth", block: "center" });
+    $submitBtn.innerHTML = originalText;
+    $submitBtn.disabled = false;
+    // Auto-trigger JSON download as a safety net
+    setTimeout(downloadAsJSON, 800);
+    return;
+  }
+
+  // Service is up — proceed with native form submit (handles file uploads)
+  $submitBtn.innerHTML = "📤 Enviando...";
+  $form.submit();
 });
 
 // ─────────────────────────────────────────────

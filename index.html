@@ -63,9 +63,23 @@
         <button type="button" id="saveDraft" class="btn btn-secondary">
           💾 Guardar borrador
         </button>
-        <button type="submit" class="btn btn-primary">
+        <button type="button" id="downloadJson" class="btn btn-secondary" title="Por si el envío principal falla, descarga las respuestas en un archivo">
+          📥 Descargar respuestas (backup)
+        </button>
+        <button type="submit" id="submitBtn" class="btn btn-primary">
           📤 Enviar cuestionario completo
         </button>
+      </div>
+
+      <div id="errorBanner" class="error-banner" hidden>
+        <strong>⚠️ El servicio de envío no responde.</strong>
+        <p>
+          Parece que FormSubmit está caído ahora mismo (es temporal, suele
+          durar minutos). Pulsa <b>"Descargar respuestas (backup)"</b> y
+          mándanos el archivo por WhatsApp o a
+          <a href="mailto:info@aetheriaagency.es">info@aetheriaagency.es</a>.
+          Nos llegan igual y sin perder nada.
+        </p>
       </div>
     </form>
 
