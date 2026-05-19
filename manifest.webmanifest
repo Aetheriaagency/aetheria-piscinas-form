@@ -1,0 +1,18 @@
+{
+  "name": "Cuestionario Piscinas · Aetheria",
+  "short_name": "Piscinas Aetheria",
+  "description": "Cuestionario técnico de piscinas para producción Sr Wolf / HBO",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fafbff",
+  "theme_color": "#8b3fbf",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/logo-aetheria.png",
+      "sizes": "758x232",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

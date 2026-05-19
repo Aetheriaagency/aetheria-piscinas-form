@@ -225,7 +225,8 @@ hr.separator {
 .pool-tab {
   flex-shrink: 0;
   scroll-snap-align: start;
-  padding: 10px 20px;
+  padding: 12px 22px;
+  min-height: 44px; /* touch target */
   font-family: inherit;
   font-size: 15px;
   font-weight: 600;
@@ -237,6 +238,10 @@ hr.separator {
   transition: all 0.18s ease;
   position: relative;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.pool-tab:active {
+  transform: scale(0.96);
 }
 .pool-tab:hover {
   border-color: var(--aetheria-violet-light);
@@ -292,6 +297,7 @@ hr.separator {
   list-style: none;
   cursor: pointer;
   padding: var(--space-4);
+  min-height: 56px; /* touch target generoso */
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -300,6 +306,10 @@ hr.separator {
   background: var(--surface);
   transition: background 0.15s ease;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.accordion-header:active {
+  background: var(--grad-brand-soft);
 }
 .accordion-header::-webkit-details-marker { display: none; }
 .accordion-header:hover {
@@ -382,13 +392,17 @@ textarea,
 select {
   width: 100%;
   font-family: inherit;
-  font-size: 14.5px;
+  /* 16px en móvil evita zoom automático en iOS Safari */
+  font-size: 16px;
   color: var(--text);
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 12px 14px;
+  min-height: 44px; /* touch target Apple HIG */
   transition: all 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 input[type="text"]:focus,
 input[type="number"]:focus,
@@ -438,25 +452,35 @@ textarea {
 .radio {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 10px;
+  padding: 11px 16px;
+  min-height: 44px; /* touch target */
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--text-soft);
   transition: all 0.15s ease;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.radio:active {
+  transform: scale(0.98);
+  background: var(--grad-brand-soft);
+}
+.radio input[type="radio"] {
+  /* En móvil, radio nativo más grande y fácil de tocar */
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--aetheria-violet);
+  cursor: pointer;
 }
 .radio:hover {
   border-color: var(--aetheria-violet-light);
   color: var(--text);
-}
-.radio input[type="radio"] {
-  accent-color: var(--aetheria-violet);
-  cursor: pointer;
 }
 .radio:has(input[type="radio"]:checked) {
   background: var(--grad-brand-soft);
@@ -547,16 +571,236 @@ textarea {
   font-size: 13.5px;
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 640px) {
-  .container { padding: var(--space-4) var(--space-3); }
-  .pool-form { padding: var(--space-3); }
-  .field-row { grid-template-columns: 1fr; }
-  .accordion-header { padding: 14px; font-size: 15px; }
-  .accordion-body { padding: var(--space-3); }
-  .actions { flex-direction: column; }
-  .actions .btn { width: 100%; justify-content: center; }
-  .brand-tag { display: none; }
-  .contact-link { display: none; }
-  .pool-tab { padding: 8px 16px; font-size: 14px; }
+/* ─── Responsive mobile-first ─── */
+@media (max-width: 768px) {
+  /* Header — compacto pero NO sticky en móvil para no robar espacio */
+  .site-header {
+    position: static;
+    padding: var(--space-3);
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .brand-name {
+    font-size: 14px;
+  }
+  .brand-tag {
+    font-size: 10px;
+    /* visible pero compacto */
+    display: block;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .contact-link {
+    /* Lo ocultamos en móvil — el footer y banner lo tienen */
+    display: none;
+  }
+
+  /* Container — menos padding lateral, full bleed */
+  .container {
+    padding: var(--space-4) var(--space-3) 120px; /* padding-bottom para sticky bar */
+    max-width: 100%;
+  }
+
+  /* Intro más compacta */
+  .intro {
+    margin-bottom: var(--space-4);
+  }
+  .intro h1 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .lead {
+    font-size: 14.5px;
+    margin-bottom: var(--space-3);
+  }
+  .status-bar {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  /* Tabs — full-width scrollables con snap */
+  .pool-tabs {
+    margin-left: calc(-1 * var(--space-3));
+    margin-right: calc(-1 * var(--space-3));
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    gap: 8px;
+  }
+  .pool-tab {
+    padding: 10px 18px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  /* Form card — menos padding */
+  .pool-form {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+  .pool-section h2 {
+    font-size: 18px !important;
+  }
+
+  /* Accordion — más espacio para tocar */
+  .accordion {
+    margin-bottom: var(--space-2);
+  }
+  .accordion-header {
+    padding: 14px;
+    font-size: 15px;
+    min-height: 60px;
+  }
+  .accordion-num {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .accordion-body {
+    padding: var(--space-3) var(--space-3) var(--space-4);
+  }
+
+  /* Fields — touch friendly */
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .field {
+    margin-bottom: var(--space-3);
+  }
+  .field label {
+    font-size: 14px;
+  }
+  .sub-heading {
+    font-size: 13px;
+    margin-top: var(--space-3);
+  }
+  .hint {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  textarea {
+    min-height: 100px;
+  }
+
+  /* Radios — vertical en móvil para evitar wrap awkward */
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .radio {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  /* Actions — STICKY BOTTOM BAR (siempre visible) */
+  .actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+    margin: 0;
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(20, 16, 41, 0.08);
+    justify-content: stretch;
+  }
+  .actions .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 14px;
+    padding: 12px 14px;
+    justify-content: center;
+    min-height: 48px;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    flex: 2 1 100%;
+    order: -1; /* el más importante arriba */
+    margin-bottom: 4px;
+  }
+
+  /* Error banner — más legible en móvil */
+  .error-banner {
+    padding: var(--space-3);
+    font-size: 13.5px;
+  }
+  .error-banner strong {
+    font-size: 14px;
+  }
+
+  /* Footer — no necesita tanto espacio */
+  .site-footer {
+    padding: var(--space-4) 0 var(--space-3);
+    font-size: 12.5px;
+  }
+}
+
+/* Extra small phones (< 380px iPhone SE) */
+@media (max-width: 380px) {
+  .intro h1 {
+    font-size: 22px;
+  }
+  .brand-tag {
+    display: none;
+  }
+  .pool-tab {
+    padding: 9px 14px;
+    font-size: 13.5px;
+  }
+  .accordion-title {
+    font-size: 14px;
+  }
+}
+
+/* Landscape phones — devolver actions inline */
+@media (max-width: 768px) and (orientation: landscape) and (max-height: 500px) {
+  .actions {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    padding: var(--space-3) 0 0;
+    border-top: 1px solid var(--border);
+  }
+  .container {
+    padding-bottom: var(--space-4);
+  }
+}
+
+/* Touch device — hover states pueden ser confusos */
+@media (hover: none) {
+  .pool-tab:hover {
+    border-color: var(--border);
+    color: var(--text-soft);
+    transform: none;
+  }
+  .accordion:hover {
+    border-color: var(--border);
+  }
+  .accordion-header:hover {
+    background: var(--surface);
+  }
+  .radio:hover {
+    border-color: var(--border);
+    color: var(--text-soft);
+  }
+  .btn-primary:hover {
+    transform: none;
+    box-shadow: 0 4px 14px rgba(139, 63, 191, 0.3);
+  }
 }
