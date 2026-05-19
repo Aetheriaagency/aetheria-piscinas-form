@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cuestionario técnico de piscinas — Aetheria · Producción Sr Wolf / HBO" />
+  <title>Cuestionario Piscinas · Aetheria</title>
+  <link rel="icon" type="image/png" href="assets/logo-aetheria.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo-aetheria.png" alt="Aetheria" class="brand-logo" />
+      <div class="brand-text">
+        <span class="brand-name">AETHERIA</span>
+        <span class="brand-tag">Cuestionario Piscinas · Sr Wolf · HBO</span>
+      </div>
+    </div>
+    <a class="contact-link" href="mailto:info@aetheriaagency.es">info@aetheriaagency.es</a>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <h1>Cuestionario técnico de piscinas</h1>
+      <p class="lead">
+        Rellena los detalles de cada piscina para que la generación de vídeo
+        salga clavada a la primera. Tus respuestas se guardan automáticamente
+        en este navegador — puedes cerrar y volver cuando quieras.
+      </p>
+      <div class="status-bar">
+        <span class="status-dot"></span>
+        <span id="autosave-status">Guardado automático activado</span>
+      </div>
+    </section>
+
+    <nav class="pool-tabs" id="poolTabs" role="tablist" aria-label="Selector de piscina">
+      <button class="pool-tab active" data-pool="lebrija" role="tab" aria-selected="true">Lebrija</button>
+      <button class="pool-tab" data-pool="utera" role="tab" aria-selected="false">Utera</button>
+      <button class="pool-tab" data-pool="sanmartin" role="tab" aria-selected="false">San Martín</button>
+      <button class="pool-tab" data-pool="jerez" role="tab" aria-selected="false">Jerez</button>
+      <button class="pool-tab" data-pool="rota" role="tab" aria-selected="false">Rota</button>
+    </nav>
+
+    <form
+      id="poolForm"
+      action="https://formsubmit.co/info@aetheriaagency.es"
+      method="POST"
+      enctype="multipart/form-data"
+      class="pool-form"
+    >
+      <!-- FormSubmit configuration -->
+      <input type="hidden" name="_subject" value="🏊 Nuevo cuestionario piscinas — Aetheria" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://aetheriaagency.github.io/aetheria-piscinas-form/thanks.html" />
+      <input type="hidden" name="_autoresponse" value="¡Gracias por enviar el cuestionario! Lo recibimos correctamente. Si tenemos cualquier duda nos pondremos en contacto. — Equipo Aetheria" />
+
+      <!-- Pool sections rendered dynamically by JS -->
+      <div id="poolSections"></div>
+
+      <div class="actions">
+        <button type="button" id="saveDraft" class="btn btn-secondary">
+          💾 Guardar borrador
+        </button>
+        <button type="submit" class="btn btn-primary">
+          📤 Enviar cuestionario completo
+        </button>
+      </div>
+    </form>
+
+    <footer class="site-footer">
+      <p>
+        Hecho con 🟣 por
+        <a href="https://aetheriaagency.es" target="_blank" rel="noopener">Aetheria</a>
+        — Producción Sr Wolf · HBO
+      </p>
+    </footer>
+  </main>
+
+  <!-- Template — pool section structure (cloned by JS for each pool) -->
+  <template id="poolSectionTemplate">
+    <div class="pool-section" data-pool="">
+
+      <!-- 1. FORMA Y MEDIDAS -->
+      <details class="accordion" open>
+        <summary class="accordion-header">
+          <span class="accordion-num">1</span>
+          <span class="accordion-title">Forma y medidas</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="field">
+            <label>Forma del vaso</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__shape" value="rectangular" /> Rectangular</label>
+              <label class="radio"><input type="radio" name="POOL__shape" value="forma-libre" /> Forma libre / orgánica</label>
+              <label class="radio"><input type="radio" name="POOL__shape" value="rinon" /> Riñón</label>
+              <label class="radio"><input type="radio" name="POOL__shape" value="infinity" /> Infinity / desbordante</label>
+              <label class="radio"><input type="radio" name="POOL__shape" value="otra" /> Otra</label>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Largo (m)</label>
+              <input type="number" name="POOL__length" step="0.1" min="0" placeholder="6.0" />
+            </div>
+            <div class="field">
+              <label>Ancho (m)</label>
+              <input type="number" name="POOL__width" step="0.1" min="0" placeholder="3.0" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Profundidad mín (m)</label>
+              <input type="number" name="POOL__depthMin" step="0.1" min="0" placeholder="1.2" />
+            </div>
+            <div class="field">
+              <label>Profundidad máx (m)</label>
+              <input type="number" name="POOL__depthMax" step="0.1" min="0" placeholder="1.8" />
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 2. PLAYA / SUN SHELF -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">2</span>
+          <span class="accordion-title">Zona de playa / sun shelf</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="field">
+            <label>¿Tiene zona de playa?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__hasPlaya" value="si" /> Sí</label>
+              <label class="radio"><input type="radio" name="POOL__hasPlaya" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>¿En qué pared está la playa?</label>
+            <input type="text" name="POOL__playaWall" placeholder="Ej: pared corta pegada a la casa" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Largo playa (m)</label>
+              <input type="number" name="POOL__playaLength" step="0.1" min="0" placeholder="1.5" />
+            </div>
+            <div class="field">
+              <label>Ancho playa (m)</label>
+              <input type="number" name="POOL__playaWidth" step="0.1" min="0" placeholder="3.0" />
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 3. ESCALERA Y BANCO -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">3</span>
+          <span class="accordion-title">Escalera de acceso y banco</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="field">
+            <label>Tipo de escalera</label>
+            <div class="radio-group radio-group-vertical">
+              <label class="radio"><input type="radio" name="POOL__stairsType" value="cascada" /> Escalones tipo cascada (3-4 peldaños)</label>
+              <label class="radio"><input type="radio" name="POOL__stairsType" value="esquina" /> Escalera de esquina</label>
+              <label class="radio"><input type="radio" name="POOL__stairsType" value="roman" /> Roman / semicircular</label>
+              <label class="radio"><input type="radio" name="POOL__stairsType" value="integrada-playa" /> Integrada en la playa</label>
+              <label class="radio"><input type="radio" name="POOL__stairsType" value="otra" /> Otra (describir abajo)</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Ubicación de la escalera</label>
+            <input type="text" name="POOL__stairsLocation" placeholder="Ej: esquina superior derecha, pared corta sur..." />
+          </div>
+          <div class="field">
+            <label>Nº de escalones</label>
+            <input type="number" name="POOL__stairsCount" min="1" placeholder="3" />
+          </div>
+
+          <hr class="separator" />
+
+          <div class="field">
+            <label>¿Tiene banco sumergido?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__hasBench" value="si" /> Sí</label>
+              <label class="radio"><input type="radio" name="POOL__hasBench" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Ubicación del banco</label>
+            <input type="text" name="POOL__benchLocation" placeholder="Ej: pared corta este" />
+          </div>
+        </div>
+      </details>
+
+      <!-- 4. ELEMENTOS TÉCNICOS -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">4</span>
+          <span class="accordion-title">Elementos técnicos</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="field-row">
+            <div class="field">
+              <label>Nº de skimmers</label>
+              <input type="number" name="POOL__skimmersCount" min="0" placeholder="2" />
+            </div>
+            <div class="field">
+              <label>¿En qué pared van?</label>
+              <input type="text" name="POOL__skimmersWall" placeholder="Ej: pared larga frontal (lado jardín)" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Nº de focos LED</label>
+              <input type="number" name="POOL__focosCount" min="0" placeholder="1" />
+            </div>
+            <div class="field">
+              <label>¿En qué pared van?</label>
+              <input type="text" name="POOL__focosWall" placeholder="Ej: pared larga opuesta a skimmers" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Sumidero — posición</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__drainPos" value="centrado" /> Centrado</label>
+              <label class="radio"><input type="radio" name="POOL__drainPos" value="descentrado" /> Descentrado</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Si va descentrado, ¿hacia dónde?</label>
+            <input type="text" name="POOL__drainOffset" placeholder="Ej: hacia el lado opuesto a la playa" />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Nº de impulsiones</label>
+              <input type="number" name="POOL__impulsionsCount" min="0" placeholder="2" />
+            </div>
+            <div class="field">
+              <label>Ubicación impulsiones</label>
+              <input type="text" name="POOL__impulsionsLocation" placeholder="Ej: dentro de la playa" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>¿Es piscina desbordante?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__overflow" value="no" /> No</label>
+              <label class="radio"><input type="radio" name="POOL__overflow" value="perimetral" /> Sí, perimetral</label>
+              <label class="radio"><input type="radio" name="POOL__overflow" value="lateral" /> Sí, solo por un lado</label>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 5. ACABADOS -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">5</span>
+          <span class="accordion-title">Acabados (revestimiento + coronación + entorno)</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <h4 class="sub-heading">Revestimiento interior</h4>
+          <div class="field">
+            <label>Material del revestimiento</label>
+            <div class="radio-group radio-group-vertical">
+              <label class="radio"><input type="radio" name="POOL__finishMaterial" value="membrana" /> Membrana armada PVC</label>
+              <label class="radio"><input type="radio" name="POOL__finishMaterial" value="gresite" /> Gresite / mosaico</label>
+              <label class="radio"><input type="radio" name="POOL__finishMaterial" value="microcemento" /> Microcemento</label>
+              <label class="radio"><input type="radio" name="POOL__finishMaterial" value="liner" /> Liner</label>
+              <label class="radio"><input type="radio" name="POOL__finishMaterial" value="otro" /> Otro</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Color exacto del revestimiento</label>
+            <input type="text" name="POOL__finishColor" placeholder="Ej: antracita gris oscuro / blanco / arena / azul claro..." />
+          </div>
+          <div class="field">
+            <label>Referencia comercial (opcional)</label>
+            <input type="text" name="POOL__finishRef" placeholder="Ej: Renolit Alkorplan Touch Chandra" />
+          </div>
+
+          <h4 class="sub-heading">Coronación (borde perimetral)</h4>
+          <div class="field">
+            <label>Material de la coronación</label>
+            <div class="radio-group radio-group-vertical">
+              <label class="radio"><input type="radio" name="POOL__copingMaterial" value="piedra-natural" /> Piedra natural</label>
+              <label class="radio"><input type="radio" name="POOL__copingMaterial" value="porcelanico" /> Porcelánico</label>
+              <label class="radio"><input type="radio" name="POOL__copingMaterial" value="travertino" /> Travertino</label>
+              <label class="radio"><input type="radio" name="POOL__copingMaterial" value="hormigon-pulido" /> Hormigón pulido</label>
+              <label class="radio"><input type="radio" name="POOL__copingMaterial" value="otro" /> Otro</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Color de la coronación (UN solo color)</label>
+            <input type="text" name="POOL__copingColor" placeholder="Ej: gris claro / blanco / beige..." />
+          </div>
+
+          <h4 class="sub-heading">Entorno alrededor de la piscina</h4>
+          <div class="field">
+            <label>Material del suelo exterior</label>
+            <div class="radio-group radio-group-vertical">
+              <label class="radio"><input type="radio" name="POOL__deckMaterial" value="baldosa" /> Baldosa / cerámica</label>
+              <label class="radio"><input type="radio" name="POOL__deckMaterial" value="tarima-madera" /> Tarima de madera</label>
+              <label class="radio"><input type="radio" name="POOL__deckMaterial" value="cesped" /> Césped (natural o artificial)</label>
+              <label class="radio"><input type="radio" name="POOL__deckMaterial" value="microcemento" /> Microcemento</label>
+              <label class="radio"><input type="radio" name="POOL__deckMaterial" value="mezcla" /> Mezcla</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Color principal del entorno</label>
+            <input type="text" name="POOL__deckColor" placeholder="Ej: gris-blanco / terracota / madera natural..." />
+          </div>
+        </div>
+      </details>
+
+      <!-- 6. SISTEMA CONSTRUCTIVO + DETALLES ESPECIALES -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">6</span>
+          <span class="accordion-title">Sistema constructivo y detalles especiales</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <div class="field">
+            <label>Sistema constructivo</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__construction" value="eps" /> Bloques EPS</label>
+              <label class="radio"><input type="radio" name="POOL__construction" value="gunite" /> Gunite (hormigón proyectado)</label>
+              <label class="radio"><input type="radio" name="POOL__construction" value="prefabricada" /> Prefabricada</label>
+              <label class="radio"><input type="radio" name="POOL__construction" value="otro" /> Otro</label>
+            </div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="field">
+            <label>¿Tiene jacuzzi o spa anexo?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__hasJacuzzi" value="si" /> Sí</label>
+              <label class="radio"><input type="radio" name="POOL__hasJacuzzi" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>¿Hay cascadas, fuentes o cuellos de cisne?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__hasWaterfall" value="si" /> Sí</label>
+              <label class="radio"><input type="radio" name="POOL__hasWaterfall" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>¿Hay mosaico o dibujos en el fondo?</label>
+            <div class="radio-group">
+              <label class="radio"><input type="radio" name="POOL__hasMosaic" value="si" /> Sí</label>
+              <label class="radio"><input type="radio" name="POOL__hasMosaic" value="no" /> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Si tiene mosaico/dibujo, ¿cuál?</label>
+            <input type="text" name="POOL__mosaicDetails" placeholder="Ej: delfín azul, cenefa griega..." />
+          </div>
+
+          <div class="field">
+            <label>Otros detalles importantes</label>
+            <textarea name="POOL__notes" rows="3" placeholder="Cualquier cosa relevante: orientación solar, vegetación cercana, peculiaridades..."></textarea>
+          </div>
+        </div>
+      </details>
+
+      <!-- 7. FOTOS -->
+      <details class="accordion">
+        <summary class="accordion-header">
+          <span class="accordion-num">7</span>
+          <span class="accordion-title">📸 Fotos de referencia</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <p class="hint">
+            Sube las que tengas — cuantas más, mejor clava el resultado.
+            Lo ideal: 1 foto del vaso terminado, 1 con agua, 1 del entorno completo,
+            y cualquier render 3D o plano técnico.
+          </p>
+          <div class="field">
+            <label for="POOL__photos">Selecciona fotos (puedes subir varias a la vez)</label>
+            <input type="file" name="POOL__photos[]" id="POOL__photos" accept="image/*,application/pdf" multiple />
+          </div>
+        </div>
+      </details>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

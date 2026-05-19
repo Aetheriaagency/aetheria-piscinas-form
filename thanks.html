@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Cuestionario enviado! · Aetheria</title>
+  <link rel="icon" type="image/png" href="assets/logo-aetheria.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .thanks-card {
+      max-width: 540px;
+      margin: 80px auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+    .thanks-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .thanks-card h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+      background: var(--grad-brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .thanks-card p {
+      color: var(--text-soft);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .thanks-actions {
+      margin-top: 32px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo-aetheria.png" alt="Aetheria" class="brand-logo" />
+      <div class="brand-text">
+        <span class="brand-name">AETHERIA</span>
+        <span class="brand-tag">Cuestionario Piscinas · Sr Wolf · HBO</span>
+      </div>
+    </div>
+    <a class="contact-link" href="mailto:info@aetheriaagency.es">info@aetheriaagency.es</a>
+  </header>
+
+  <main class="container">
+    <div class="thanks-card">
+      <div class="thanks-icon">🎉</div>
+      <h1>¡Cuestionario recibido!</h1>
+      <p>Gracias por enviar los detalles técnicos de las piscinas.</p>
+      <p>Con esto ya podemos clavar la generación de cada vídeo a la primera.</p>
+      <p style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">
+        Si tenemos cualquier duda nos pondremos en contacto contigo a la mayor brevedad.
+      </p>
+
+      <div class="thanks-actions">
+        <a href="index.html" class="btn btn-secondary">← Volver al cuestionario</a>
+        <a href="https://aetheriaagency.es" target="_blank" rel="noopener" class="btn btn-primary">Aetheria · Web</a>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Hecho con 🟣 por
+        <a href="https://aetheriaagency.es" target="_blank" rel="noopener">Aetheria</a>
+        — Producción Sr Wolf · HBO
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
